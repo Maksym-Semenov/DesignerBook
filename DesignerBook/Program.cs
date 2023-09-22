@@ -8,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 var vConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
     throw new InvalidOperationException("Connection string 'DesignerBookContext' not found.");
 
-builder.Services.AddDbContext<DesignerBookContext>(options => options.UseSqlServer(vConnectionString));
+builder.Services.AddDbContext<DesignerBookContext>(options =>
+    options.UseMySql(vConnectionString, ServerVersion.AutoDetect(vConnectionString)));
+  //options => options.UseSqlServer(vConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddRazorPages();
