@@ -9,8 +9,8 @@ var vConnectionString = builder.Configuration.GetConnectionString("DefaultConnec
     throw new InvalidOperationException("Connection string 'DesignerBookContext' not found.");
 
 builder.Services.AddDbContext<DesignerBookContext>(options =>
-    options.UseMySql(vConnectionString, ServerVersion.AutoDetect(vConnectionString)));
-  //options => options.UseSqlServer(vConnectionString));
+    //options.UseMySql(vConnectionString, ServerVersion.AutoDetect(vConnectionString)));
+    options => options.UseSqlServer(vConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddRazorPages();
