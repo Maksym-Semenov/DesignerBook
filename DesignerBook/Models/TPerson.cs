@@ -7,10 +7,13 @@ namespace DesignerBook.Models
     {
         public Guid Id { get; set; }
 
+        [Required, Display(Name = "Ім'я")]
         public string FirstName { get; set; } = string.Empty;
 
+        [Display(Name = "По-батькові")]
         public string MiddleName { get; set; } = string.Empty;
 
+        [Display(Name = "Прізвище")]
         public string LastName { get; set; } = string.Empty;
 
         private string _middleName => string.IsNullOrEmpty(MiddleName) ? string.Empty : MiddleName[..1];

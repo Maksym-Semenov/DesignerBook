@@ -8,6 +8,7 @@ namespace DesignerBook.Data
         public DesignerBookContext(DbContextOptions<DesignerBookContext> options)
            : base(options)
         {
+            Database.EnsureCreated();
         }
         public DbSet<TPerson> Persons { get; set; }
         public DbSet<TEvent> Events { get; set; }
