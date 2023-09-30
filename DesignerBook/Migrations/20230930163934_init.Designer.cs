@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DesignerBook.Migrations
 {
     [DbContext(typeof(DesignerBookContext))]
-    [Migration("20230926191707_init")]
+    [Migration("20230930163934_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -32,11 +32,14 @@ namespace DesignerBook.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("Count")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EventDateRegister")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<uint>("EventSerialNumber")
-                        .HasColumnType("int unsigned");
+                    b.Property<int>("EventSerialNumber")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("NextDateCommunication")
                         .HasColumnType("datetime(6)");
@@ -59,6 +62,9 @@ namespace DesignerBook.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<int?>("EventsCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

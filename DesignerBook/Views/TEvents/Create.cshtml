@@ -1,25 +1,26 @@
 ﻿@model DesignerBook.Models.TEvent
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Створення події";
 }
 
-<h1>Події</h1>
+<h1>Створення події</h1>
 
-<h4>Створення нової події</h4>
 
-@* @{
-    if (ViewBag.Persons != null)
+@{
+    if (ViewBag.Person.Id != null)
     {
-        ViewData["Title"] = "Подія для " + ViewBag.Persons.Id;
-        <h4>Подія для @ViewBag.Persons.Id</h4>
+        ViewData["Title"] = "Подія для " + ViewBag.Person.Id;
+        <h4>
+            Подія для @ViewBag.Person.PIB
+        </h4>
     }
     else
     {
         ViewData["Title"] = "Подія";
         <h4>Подія</h4>
     }
- *@}
+ }
 
 <hr />
 <div class="row">
@@ -47,14 +48,14 @@
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Створити" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Повернутися до переліку подій</a>
 </div>
 
 @section Scripts {

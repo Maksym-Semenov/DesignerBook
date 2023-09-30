@@ -19,9 +19,9 @@ namespace DesignerBook.Controllers
             _context = context;
         }
 
-        public async Task FillViewData(TPerson APerson = null, Guid? APersonId = null)
+        public async Task FillViewData(TEvent? AEvent = null, Guid? PersonId = null)
         {
-            TPerson? vPerson = APersonId != null ? await _context.Persons.FindAsync(APersonId) : null;
+            TPerson? vPerson = PersonId != null ? await _context.Persons.FindAsync(PersonId) : null;
             if (vPerson != null)
             {
                 ViewData["Person"] = vPerson;
@@ -30,7 +30,6 @@ namespace DesignerBook.Controllers
             {
                 ViewData["PersonList"] = new SelectList(_context.Persons.OrderBy(t => t.LastName), "Id", "LastName");
             }
-
         }
 
         // GET: TEvents
@@ -60,9 +59,9 @@ namespace DesignerBook.Controllers
         }
 
         // GET: TEvents/Create
-        public async Task<IActionResult> Create(Guid? APersonId)
+        public async Task<IActionResult> Create(Guid? Id)
         {
-            await FillViewData(null, APersonId);
+            await FillViewData(null, Id);
             return View();
         }
 
@@ -71,16 +70,17 @@ namespace DesignerBook.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EventSerialNumber,EventDateRegister,NextDateCommunication,Comment")] TEvent tEvent)
+        public async Task<IActionResult> Create([Bind("Id,PersonId,Count,EventSerialNumber,EventDateRegister,NextDateCommunication,Comment")] TEvent AEvent)
         {
             if (ModelState.IsValid)
             {
-                tEvent.Id = Guid.NewGuid();
-                _context.Add(tEvent);
+                AEvent.Id = Guid.NewGuid();
+                _context.Add(AEvent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(tEvent);
+            FillViewData(AEvent, null);
+            return View(AEvent);
         }
 
         // GET: TEvents/Edit/5
