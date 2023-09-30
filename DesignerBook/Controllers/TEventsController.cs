@@ -19,6 +19,20 @@ namespace DesignerBook.Controllers
             _context = context;
         }
 
+        public async Task FillViewData(TPerson APerson = null, Guid? APersonId = null)
+        {
+            TPerson? vPerson = APersonId != null ? await _context.Persons.FindAsync(APersonId) : null;
+            if (vPerson != null)
+            {
+                ViewData["Person"] = vPerson;
+            }
+            else
+            {
+                ViewData["PersonList"] = new SelectList(_context.Persons.OrderBy(t => t.LastName), "Id", "LastName");
+            }
+
+        }
+
         // GET: TEvents
         public async Task<IActionResult> Index()
         {
@@ -46,8 +60,9 @@ namespace DesignerBook.Controllers
         }
 
         // GET: TEvents/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(Guid? APersonId)
         {
+            await FillViewData(null, APersonId);
             return View();
         }
 

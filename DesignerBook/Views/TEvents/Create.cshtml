@@ -4,9 +4,23 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Події</h1>
 
-<h4>TEvent</h4>
+<h4>Створення нової події</h4>
+
+@* @{
+    if (ViewBag.Persons != null)
+    {
+        ViewData["Title"] = "Подія для " + ViewBag.Persons.Id;
+        <h4>Подія для @ViewBag.Persons.Id</h4>
+    }
+    else
+    {
+        ViewData["Title"] = "Подія";
+        <h4>Подія</h4>
+    }
+ *@}
+
 <hr />
 <div class="row">
     <div class="col-md-4">
