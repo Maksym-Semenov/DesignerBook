@@ -19,9 +19,23 @@ namespace DesignerBook.Controllers
             _context = context;
         }
 
+        public async Task FillViewData(TPerson APerson = null, Guid? APersonId = null)
+        {
+            TPerson? vPerson = APersonId != null ? await _context.Persons.FindAsync(APersonId) : null;
+            if (vPerson != null)
+            {
+                ViewData["Person"] = vPerson;
+            }
+            else
+            {
+                ViewData["PersonList"] = new SelectList(_context.Persons.OrderBy(t => t.LastName), "Id", "LastName");
+            }
+        }
+
         // GET: TPersons
         public async Task<IActionResult> Index()
         {
+            await FillViewData();
               return _context.Persons != null ? 
                           View(await _context.Persons.ToListAsync()) :
                           Problem("Entity set 'DesignerBookContext.Persons'  is null.");
