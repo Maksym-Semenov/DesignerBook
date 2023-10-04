@@ -1,19 +1,19 @@
 ﻿@model IEnumerable<DesignerBook.Models.TEvent>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Перелік подій";
 }
 
-<h1>Index</h1>
+<h1>Перелік подій</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.EventSerialNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EventDateRegister)
@@ -34,6 +34,9 @@
                 @Html.DisplayFor(modelItem => item.EventSerialNumber)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.PersonId)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.EventDateRegister)
             </td>
             <td>
@@ -43,9 +46,10 @@
                 @Html.DisplayFor(modelItem => item.Comment)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Детально</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                <a asp-controller="TEvents" asp-action="Index" asp-route-PersonId="@item.PersonId"></a>
             </td>
         </tr>
 }

@@ -19,6 +19,7 @@ namespace DesignerBook.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    EventsCount = table.Column<int>(type: "int", nullable: true),
                     FirstName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MiddleName = table.Column<string>(type: "longtext", nullable: false)
@@ -38,7 +39,8 @@ namespace DesignerBook.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     PersonId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    EventSerialNumber = table.Column<uint>(type: "int unsigned", nullable: false),
+                    Count = table.Column<int>(type: "int", nullable: true),
+                    EventSerialNumber = table.Column<int>(type: "int", nullable: false),
                     EventDateRegister = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     NextDateCommunication = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Comment = table.Column<string>(type: "longtext", nullable: false)

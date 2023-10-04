@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DesignerBook.Data;
 using DesignerBook.Models;
+using DesignerBook.ViewModels;
 
 namespace DesignerBook.Controllers
 {
@@ -19,13 +21,26 @@ namespace DesignerBook.Controllers
             _context = context;
         }
 
-       
+        public async Task FillViewData(TEvent? AEvent = null, Guid? Id = null)
+        {
+            var vPerson = Id != null ? await _context.Persons.FindAsync(Id) : null;
+            if (vPerson != null)
+            {
+                ViewData["PIB"] = vPerson.PIB;
+                ViewData["Id"] = vPerson.Id;
+            }
+            else
+            {
+                ViewData["PersonList"] = new SelectList(_context.Persons.OrderBy(t => t.LastName), "Id", "LastName");
+            }
+        }
 
         // GET: TEvents
         public async Task<IActionResult> Index()
         {
-              return _context.Events != null ? 
-                          View(await _context.Events.ToListAsync()) :
+            //var eventWithPerson = new EventWithPerson();
+            return _context.Events != null ? 
+                           View(await _context.Events.ToListAsync()) :
                           Problem("Entity set 'DesignerBookContext.Events'  is null.");
         }
 
@@ -48,8 +63,9 @@ namespace DesignerBook.Controllers
         }
 
         // GET: TEvents/Create
-        public async Task<IActionResult> Create(Guid? APersonId)
+        public async Task<IActionResult> Create(Guid? PersonId)
         {
+            await FillViewData(null, PersonId);
             return View();
         }
 
@@ -58,16 +74,19 @@ namespace DesignerBook.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EventSerialNumber,EventDateRegister,NextDateCommunication,Comment")] TEvent tEvent)
+        public async Task<IActionResult> Create([Bind("Id,PersonId,Count,EventSerialNumber," +
+                                                      "EventDateRegister,NextDateCommunication,Comment")] TEvent AEvent)
+
         {
             if (ModelState.IsValid)
             {
-                tEvent.Id = Guid.NewGuid();
-                _context.Add(tEvent);
+                AEvent.Id = Guid.NewGuid();
+                _context.Add(AEvent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(tEvent);
+            FillViewData(AEvent, null);
+            return View(AEvent);
         }
 
         // GET: TEvents/Edit/5

@@ -29,11 +29,14 @@ namespace DesignerBook.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("Count")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EventDateRegister")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<uint>("EventSerialNumber")
-                        .HasColumnType("int unsigned");
+                    b.Property<int>("EventSerialNumber")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("NextDateCommunication")
                         .HasColumnType("datetime(6)");
@@ -48,7 +51,7 @@ namespace DesignerBook.Migrations
 
                     b.HasIndex("TPersonId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("DesignerBook.Models.TPerson", b =>
@@ -56,6 +59,9 @@ namespace DesignerBook.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<int?>("EventsCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -71,7 +77,7 @@ namespace DesignerBook.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persons");
+                    b.ToTable("Persons", (string)null);
                 });
 
             modelBuilder.Entity("DesignerBook.Models.TEvent", b =>
