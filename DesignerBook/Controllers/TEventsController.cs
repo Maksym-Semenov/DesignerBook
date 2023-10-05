@@ -26,20 +26,23 @@ namespace DesignerBook.Controllers
             var vPerson = Id != null ? await _context.Persons.FindAsync(Id) : null;
             if (vPerson != null)
             {
+                //ViewBag.Person = new SelectList(_context.Persons
+                //                                .Where(x => x.Id == Id), "Id", "PIB");
+
                 ViewData["PIB"] = vPerson.PIB;
                 ViewData["Id"] = vPerson.Id;
             }
             else
             {
-                ViewData["PersonList"] = new SelectList(_context.Persons.OrderBy(t => t.LastName), "Id", "LastName");
+                ViewData["PersonList"] = new SelectList(_context.Persons.OrderBy(t => t.LastName), "Id", "PIB");
             }
         }
 
         // GET: TEvents
         public async Task<IActionResult> Index()
         {
-            //var eventWithPerson = new EventWithPerson();
-            return _context.Events != null ? 
+
+            return _context.Events != null ?
                            View(await _context.Events.ToListAsync()) :
                           Problem("Entity set 'DesignerBookContext.Events'  is null.");
         }
