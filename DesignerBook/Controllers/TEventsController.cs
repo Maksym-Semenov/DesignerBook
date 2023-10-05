@@ -39,12 +39,43 @@ namespace DesignerBook.Controllers
         }
 
         // GET: TEvents
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? AOrderBy )
         {
+            const string constEventsOrder = "EventsOrder";
 
+            if (AOrderBy != null)
+                Request.HttpContext.Session.SetInt32(constEventsOrder, (int)AOrderBy);
+            else
+            if (Request.HttpContext.Session.Keys.Contains(constEventsOrder))
+                AOrderBy = Request.HttpContext.Session.GetInt32(constEventsOrder);
+            IOrderedQueryable<TEvent> vEventsOrder;
+            if (AOrderBy == 0)
+            {
+                vEventsOrder = _context.Events.
+                    OrderBy(t => t.EventDateRegister).
+                    ThenBy(t => t.PersonId);
+            }
+            else
+            {
+                vEventsOrder = _context.Events.
+                    OrderBy(t => t.PersonId).
+                    ThenBy(t => t.EventDateRegister);
+            }
+
+            FillViewData(null, null);
             return _context.Events != null ?
                            View(await _context.Events.ToListAsync()) :
                           Problem("Entity set 'DesignerBookContext.Events'  is null.");
+        }
+
+        public async Task<IActionResult> Index2()
+        {
+            PersonsWithEvents vPersonsWithEvents = new PersonsWithEvents();
+            vPersonsWithEvents.EventsList = await _context.Events.ToListAsync();
+            vPersonsWithEvents.PersonsList = await _context.Persons.ToListAsync();
+            return vPersonsWithEvents != null ?
+                View(vPersonsWithEvents as IEnumerable<PersonsWithEvents>) :
+                Problem("Entity set 'DesignerBookContext.Events'  is null.");
         }
 
         // GET: TEvents/Details/5
@@ -84,6 +115,7 @@ namespace DesignerBook.Controllers
             if (ModelState.IsValid)
             {
                 AEvent.Id = Guid.NewGuid();
+                AEvent.EventDateRegister = DateTime.Now;
                 _context.Add(AEvent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

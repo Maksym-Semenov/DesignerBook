@@ -15,16 +15,13 @@ namespace DesignerBook.Models
         [Display(Name = "Кількість подій")]
         public int? Count { get; set; }
 
-        [Display(Name = "Номер події"),]
-        public int EventSerialNumber { get; set; }
-
         [Display(Name = "Дата створення")] 
-        public DateTime EventDateRegister { get; set; } = DateTime.Now;
+        public DateTime? EventDateRegister { get; set; }
 
         [Display(Name = "Наступна дата для зв'язку")]
         public DateTime NextDateCommunication { get; set; }
 
-        [Display(Name = "Комментарій")]
+        [DataType(DataType.MultilineText), Display(Name = "Коментар")]
         public string Comment { get; set; } = string.Empty;
     }
 }

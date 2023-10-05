@@ -1,4 +1,4 @@
-using DesignerBook.Data;
+﻿using DesignerBook.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +12,9 @@ builder.Services.AddDbContext<DesignerBookContext>(options =>
     options.UseMySql(vConnectionString, ServerVersion.AutoDetect(vConnectionString)));
   //options => options.UseSqlServer(vConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddDistributedMemoryCache();// ��������� IDistributedMemoryCache
+builder.Services.AddSession();  // ��������� ������� ������
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
@@ -28,9 +31,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(

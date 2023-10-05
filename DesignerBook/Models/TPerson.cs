@@ -8,11 +8,6 @@ namespace DesignerBook.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        public string PIB => string.IsNullOrEmpty(MiddleName + LastName)
-            ? FirstName
-            : $"{LastName} {_firstName}.{_middleName}.";
-
-
         [Display(Name="Кількість подій")]
         public int? EventsCount { get; set; }
 
@@ -28,8 +23,9 @@ namespace DesignerBook.Models
         private string _middleName => string.IsNullOrEmpty(MiddleName) ? string.Empty : MiddleName[..1];
         private string _firstName => string.IsNullOrEmpty(FirstName) ? string.Empty : FirstName[..1];
 
-        
-
+        public string PIB => string.IsNullOrEmpty(MiddleName + LastName)
+            ? FirstName
+            : $"{LastName} {_firstName}.{_middleName}.";
 
         public virtual IEnumerable<TEvent>? Events { get; set; }
     }

@@ -10,16 +10,17 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.EventSerialNumber)
-            </th>
-            <th>
+                <a asp-action="Index" asp-route-AOrderBy="0">
                 @Html.DisplayNameFor(model => model.PersonId)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EventDateRegister)
             </th>
             <th>
+                <a asp-action="Index" asp-route-AOrderBy="1">
                 @Html.DisplayNameFor(model => model.NextDateCommunication)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment)
@@ -30,9 +31,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventSerialNumber)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PersonId)
             </td>
