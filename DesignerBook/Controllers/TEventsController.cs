@@ -50,7 +50,6 @@ namespace DesignerBook.Controllers
             ViewData["EventDateRegSort"] = vSortOrder == TSortState.EventDateRegAsc ? TSortState.EventDateRegDesc : TSortState.EventDateRegAsc;
             ViewData["NextDateCommSort"] = vSortOrder == TSortState.NextDateCommAsc ? TSortState.NextDateCommDesc : TSortState.NextDateCommAsc;
 
-
             vEvents = vSortOrder switch
             {
                 TSortState.PIBAsc => vEvents.OrderBy(p => p.PersonId),

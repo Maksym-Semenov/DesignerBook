@@ -36,6 +36,8 @@ namespace DesignerBook.Controllers
         public async Task<IActionResult> Index()
         {
             //await FillViewData();
+            var count = _context.Events.GroupBy(e => e.Id).Count();
+            ViewData["Count"] = count;
               return _context.Persons != null ? 
                           View(await _context.Persons.ToListAsync()) :
                           Problem("Entity set 'DesignerBookContext.Persons'  is null.");
