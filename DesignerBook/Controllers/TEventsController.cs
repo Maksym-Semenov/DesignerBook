@@ -68,16 +68,6 @@ namespace DesignerBook.Controllers
                           Problem("Entity set 'DesignerBookContext.Events'  is null.");
         }
 
-        public async Task<IActionResult> Index2()
-        {
-            PersonsWithEvents vPersonsWithEvents = new PersonsWithEvents();
-            vPersonsWithEvents.EventsList = await _context.Events.ToListAsync();
-            vPersonsWithEvents.PersonsList = await _context.Persons.ToListAsync();
-            return vPersonsWithEvents != null ?
-                View(vPersonsWithEvents as IEnumerable<PersonsWithEvents>) :
-                Problem("Entity set 'DesignerBookContext.Events'  is null.");
-        }
-
         // GET: TEvents/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
