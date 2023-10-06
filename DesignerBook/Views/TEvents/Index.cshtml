@@ -10,17 +10,13 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-AOrderBy="0">
-                @Html.DisplayNameFor(model => model.PersonId)
-                </a>
+                <a asp-action="Index" asp-route-vSortOrder="@ViewBag.PIBSort">Особа</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EventDateRegister)
+                <a asp-action="Index" asp-route-vSortOrder="@ViewBag.EventDateRegSort">Дата реєстрації</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-AOrderBy="1">
-                @Html.DisplayNameFor(model => model.NextDateCommunication)
-                </a>
+                <a asp-action="Index" asp-route-vSortOrder="@ViewBag.NextDateCommSort">Наступна дата для зв'язку</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment)
@@ -30,26 +26,21 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDateRegister)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NextDateCommunication)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Детально</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
-                <a asp-controller="TEvents" asp-action="Index" asp-route-PersonId="@item.PersonId"></a>
-            </td>
-        </tr>
+
+            <tr>
+                <td>
+                    @item.PersonId
+                </td>
+                <td>
+                    @item.EventDateRegister
+                </td>
+                <td>
+                    @item.NextDateCommunication
+                </td>
+                <td>
+                    @item.Comment
+                </td>
+            </tr>      
 }
     </tbody>
 </table>
