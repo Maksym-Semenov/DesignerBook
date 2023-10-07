@@ -1,0 +1,58 @@
+﻿@model DesignerBook.ViewModels.PersonsWithEvents
+
+@{
+    ViewData["Title"] = "Index3";
+}
+
+<h1>Index3</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FromPersons.FirstOrDefault().Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromEvents.FirstOrDefault().EventDateRegister)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromEvents.FirstOrDefault().NextDateCommunication)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromEvents.FirstOrDefault().Comment)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.FromEvents) {
+            <tr>
+                <td>
+                    @{
+                        string? vPersonPIB = Model.FromPersons
+                                                .Where(x => x.Id == item.PersonId)
+                                                .FirstOrDefault().PIB;
+                    }
+                    @Html.DisplayFor(modelItem => vPersonPIB)
+                </td>
+@*                 <td>
+                    @Html.DisplayFor(modelItem => item.EventDateRegister)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NextDateCommunication)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+ *@            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

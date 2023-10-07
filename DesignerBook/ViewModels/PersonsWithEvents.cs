@@ -6,8 +6,8 @@ namespace DesignerBook.ViewModels
 {
     public class PersonsWithEvents
     {
-        public Guid Id { get; set; }
-        public IEnumerable<TEvent>? EventsList { get; set; }
-        public IEnumerable<TPerson>? PersonsList { get; set; }
+        public int Id { get; set; }
+        public IQueryable<TEvent>? FromEvents { get; set; }
+        public IQueryable<TPerson>? FromPersons { get; set; }
     }
 }

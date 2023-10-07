@@ -66,6 +66,36 @@ namespace DesignerBook.Controllers
                           Problem("Entity set 'DesignerBookContext.Events'  is null.");
         }
 
+        public IActionResult Index3(/*TSortState vSortOrder = TSortState.NextDateCommAsc*/)
+        {
+            //FillViewData(null, null);
+
+            //IQueryable<TEvent> vEvents = _context.Events;
+
+            //ViewData["PIBSort"] = vSortOrder == TSortState.PIBAsc ? TSortState.PIBDesc : TSortState.PIBAsc;
+            //ViewData["EventDateRegSort"] = vSortOrder == TSortState.EventDateRegAsc ? TSortState.EventDateRegDesc : TSortState.EventDateRegAsc;
+            //ViewData["NextDateCommSort"] = vSortOrder == TSortState.NextDateCommAsc ? TSortState.NextDateCommDesc : TSortState.NextDateCommAsc;
+
+
+            //vEvents = vSortOrder switch
+            //{
+            //    TSortState.PIBAsc => vEvents.OrderBy(p => p.PersonId),
+            //    TSortState.PIBDesc => vEvents.OrderByDescending(p => p.PersonId),
+            //    TSortState.EventDateRegAsc => vEvents.OrderBy(p => p.EventDateRegister),
+            //    TSortState.EventDateRegDesc => vEvents.OrderByDescending(p => p.EventDateRegister),
+            //    TSortState.NextDateCommDesc => vEvents.OrderByDescending(p => p.NextDateCommunication),
+            //    _ => vEvents.OrderBy(p => p.NextDateCommunication)
+            //};
+            //IQueryable<PersonsWithEvents> vPersonWithEvents = _context.PersonsWithEvents;
+            var? vPersonWithEvents = new PersonsWithEvents();
+            vPersonWithEvents.FromPersons = _context.Persons;
+            vPersonWithEvents.FromEvents = _context.Events;
+
+
+            return View(vPersonWithEvents);
+        }
+
+
         // GET: TEvents/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -106,7 +136,7 @@ namespace DesignerBook.Controllers
                 AEvent.EventDateRegister = DateTime.Now;
                 _context.Add(AEvent);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index3));
             }
             FillViewData(AEvent, null);
             return View(AEvent);
