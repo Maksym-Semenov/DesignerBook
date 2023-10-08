@@ -8,9 +8,6 @@ namespace DesignerBook.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [Display(Name="Кількість подій")]
-        public int? EventsCount { get; set; }
-
         [Required, Display(Name = "Ім'я")]
         public string FirstName { get; set; } = string.Empty;
 
@@ -28,5 +25,13 @@ namespace DesignerBook.Models
             : $"{LastName} {_firstName}.{_middleName}.";
 
         public virtual IEnumerable<TEvent>? Events { get; set; }
+    }
+
+    public class TPersonExtention
+    {
+        public TPerson Person { get; set; } = default!;
+
+        [Display(Name = "Кількість подій")]
+        public int? EventsCount { get; set; }
     }
 }

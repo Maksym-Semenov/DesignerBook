@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DesignerBook.Data;
 using DesignerBook.Models;
+using DesignerBook.ViewModels;
 
 namespace DesignerBook.Controllers
 {
@@ -35,11 +36,14 @@ namespace DesignerBook.Controllers
         // GET: TPersons
         public async Task<IActionResult> Index()
         {
-            //await FillViewData();
-            var count = _context.Events.GroupBy(e => e.Id).Count();
-            ViewData["Count"] = count;
+            var vEventsCount = await _context.Persons.Select(t => new TPersonExtention()
+            {
+                Person = t,
+                EventsCount = _context.Events.Where(x => x.PersonId == t.Id).Count()
+            }).ToListAsync();
+
               return _context.Persons != null ? 
-                          View(await _context.Persons.ToListAsync()) :
+                          View(vEventsCount) :
                           Problem("Entity set 'DesignerBookContext.Persons'  is null.");
         }
 

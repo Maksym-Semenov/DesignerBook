@@ -1,8 +1,7 @@
-﻿@model IEnumerable<DesignerBook.Models.TPerson>
+﻿@model IEnumerable<DesignerBook.Models.TPersonExtention>
 
 @{
     ViewData["Title"] = "Перелік контактів";
-    int a = ViewBag.Count;
 }
 
 <h1>Перелік контактів</h1>
@@ -14,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.Person.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MiddleName)
+                @Html.DisplayNameFor(model => model.Person.MiddleName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.Person.LastName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EventsCount)
@@ -32,22 +31,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                    @Html.DisplayFor(modelItem => item.Person.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MiddleName)
+                    @Html.DisplayFor(modelItem => item.Person.MiddleName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                    @Html.DisplayFor(modelItem => item.Person.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EventsCount)
+                    @Html.DisplayFor(modelItem => item.EventsCount)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Детально</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a> |
-                    <a asp-controller="TEvents"asp-action="Create" asp-route-PersonId="@item.Id">Створити подію</a>
+                    <a asp-action="Edit" asp-route-id="@item.Person.Id">Редагувати</a> |
+                    <a asp-action="Details" asp-route-id="@item.Person.Id">Детально</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Person.Id">Видалити</a> |
+                    <a asp-controller="TEvents" asp-action="Create" asp-route-PersonId="@item.Person.Id">Створити подію</a>
             </td>
         </tr>
 }

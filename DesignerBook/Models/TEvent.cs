@@ -6,6 +6,7 @@ namespace DesignerBook.Models
 {
     public class TEvent
     {
+      
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
@@ -13,7 +14,7 @@ namespace DesignerBook.Models
         public Guid PersonId { get; set; }
 
         [Display(Name = "Кількість подій")]
-        public int? Count { get; set; }
+        public static int? Count { get; set; }
 
         [Display(Name = "Дата створення")] 
         public DateTime? EventDateRegister { get; set; }
@@ -24,4 +25,6 @@ namespace DesignerBook.Models
         [DataType(DataType.MultilineText), Display(Name = "Коментар")]
         public string Comment { get; set; } = string.Empty;
     }
+
+    
 }

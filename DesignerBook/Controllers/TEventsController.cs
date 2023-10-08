@@ -44,6 +44,20 @@ namespace DesignerBook.Controllers
         {      
             FillViewData(null, null);
 
+            int pageSize = 5;   // кількість елементів на сторінці
+
+
+            IQueryable<TPerson> source = _context.Persons.Include(x => x.Events);
+            var count = await source.CountAsync();
+            var items = await source.Skip((pageSize - 1) * count).Take(pageSize).ToListAsync();
+
+            PageViewModel pageViewModel = new PageViewModel(count, count, pageSize);
+            IndexViewModel viewModel = new IndexViewModel
+            {
+                PageViewModel = pageViewModel,
+                Persons = items123123123
+            };
+
             IQueryable<TEvent> vEvents = _context.Events;
 
             ViewData["PIBSort"] = vSortOrder == TSortState.PIBAsc ? TSortState.PIBDesc : TSortState.PIBAsc;
