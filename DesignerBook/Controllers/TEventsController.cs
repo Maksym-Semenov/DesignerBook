@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DesignerBook.Data;
 using DesignerBook.Models;
-using DesignerBook.ViewModels;
 
 namespace DesignerBook.Controllers
 {
@@ -70,11 +69,12 @@ namespace DesignerBook.Controllers
 
         public async Task<IActionResult> Index2()
         {
-            PersonsWithEvents vPersonsWithEvents = new PersonsWithEvents();
-            vPersonsWithEvents.EventsList = await _context.Events.ToListAsync();
-            vPersonsWithEvents.PersonsList = await _context.Persons.ToListAsync();
+            //PersonsWithEvents vPersonsWithEvents = new PersonsWithEvents();
+            var vPersonsWithEvents = _context.Persons.Include(x => x.Events).ToList();
+            //vPersonsWithEvents.EventsList = _context.Events;
+            //vPersonsWithEvents.PersonsList = _context.Persons;
             return vPersonsWithEvents != null ?
-                View(vPersonsWithEvents as IEnumerable<PersonsWithEvents>) :
+                View(vPersonsWithEvents) :
                 Problem("Entity set 'DesignerBookContext.Events'  is null.");
         }
 
@@ -118,7 +118,7 @@ namespace DesignerBook.Controllers
                 AEvent.EventDateRegister = DateTime.Now;
                 _context.Add(AEvent);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index2));
             }
             FillViewData(AEvent, null);
             return View(AEvent);

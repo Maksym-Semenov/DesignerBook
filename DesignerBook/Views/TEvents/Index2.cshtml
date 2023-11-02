@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DesignerBook.ViewModels.PersonsWithEvents>
+﻿@model IEnumerable<DesignerBook.Models.TPerson>
 
 @{
     ViewData["Title"] = "Index2";
@@ -13,46 +13,45 @@
     <thead>
     <tr>
         <th>
-                @Html.DisplayNameFor(model => model.PersonsList.FirstOrDefault().Id)
+                @Html.DisplayNameFor(model => model.PIB)
         </th>
         <th>
-                @Html.DisplayNameFor(model => model.EventsList.FirstOrDefault().EventDateRegister)
+                @Html.DisplayNameFor(model => model.Events.FirstOrDefault().EventDateRegister)
         </th>
         <th>
-                @Html.DisplayNameFor(model => model.EventsList.FirstOrDefault().NextDateCommunication)
+                @Html.DisplayNameFor(model => model.Events.FirstOrDefault().NextDateCommunication)
         </th>
         <th>
-                @Html.DisplayNameFor(model => model.EventsList.FirstOrDefault().Comment)
+                @Html.DisplayNameFor(model => model.Events.FirstOrDefault().Comment)
         </th>
         <th></th>
     </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @{
-                string? branchName = @Model.GetEnumerator().Current.PersonsList
-                    .Where(b => b.Id == item.EventsList.GetEnumerator().Current.PersonId)
-                    .FirstOrDefault().ToString();
-            }
-            @Html.DisplayFor(modelItem => branchName)
-        </td>
-        <td>
-                    @Html.DisplayFor(modelItem => item.EventsList.FirstOrDefault().EventDateRegister)
-        </td>
-        <td>
-                    @Html.DisplayFor(modelItem => item.EventsList.FirstOrDefault().NextDateCommunication)
-        </td>
-        <td>
-                    @Html.DisplayFor(modelItem => item.EventsList.FirstOrDefault().Comment)
-        </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-        </td>
-    </tr>
+@foreach (var person in Model)
+{
+    foreach (var item in person.Events)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => person.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDateRegister)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NextDateCommunication)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
 }
     </tbody>
 </table>
