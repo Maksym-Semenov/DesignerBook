@@ -42,28 +42,27 @@ namespace DesignerBook.Controllers
         // GET: TEvents
         public async Task<IActionResult> Index(TSortState vSortOrder = TSortState.NextDateCommAsc)
         {      
-            FillViewData(null, null);
+            //FillViewData(null, null);
 
-            int pageSize = 5;   // кількість елементів на сторінці
+            //int pageSize = 5;   // кількість елементів на сторінці
 
 
-            IQueryable<TPerson> source = _context.Persons.Include(x => x.Events);
-            var count = await source.CountAsync();
-            var items = await source.Skip((pageSize - 1) * count).Take(pageSize).ToListAsync();
+            //IQueryable<TPerson> source = _context.Persons.Include(x => x.Events);
+            //var count = await source.CountAsync();
+            //var items = await source.Skip((pageSize - 1) * count).Take(pageSize).ToListAsync();
 
-            PageViewModel pageViewModel = new PageViewModel(count, count, pageSize);
-            IndexViewModel viewModel = new IndexViewModel
-            {
-                PageViewModel = pageViewModel,
-                Persons = items123123123
-            };
+            //PageViewModel pageViewModel = new PageViewModel(count, count, pageSize);
+            //IndexViewModel viewModel = new IndexViewModel
+            //{
+            //    PageViewModel = pageViewModel,
+            //    //Persons = items123123123
+            //};
 
-            IQueryable<TEvent> vEvents = _context.Events;
+            IQueryable<TEvent> vEvents = _context.Events.Include(x => x.Person);
 
             ViewData["PIBSort"] = vSortOrder == TSortState.PIBAsc ? TSortState.PIBDesc : TSortState.PIBAsc;
             ViewData["EventDateRegSort"] = vSortOrder == TSortState.EventDateRegAsc ? TSortState.EventDateRegDesc : TSortState.EventDateRegAsc;
             ViewData["NextDateCommSort"] = vSortOrder == TSortState.NextDateCommAsc ? TSortState.NextDateCommDesc : TSortState.NextDateCommAsc;
-
             vEvents = vSortOrder switch
             {
                 TSortState.PIBAsc => vEvents.OrderBy(p => p.PersonId),

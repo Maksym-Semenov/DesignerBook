@@ -12,6 +12,7 @@ namespace DesignerBook.Models
 
         [ForeignKey(nameof(TPerson)), Display(Name = "Особа")]
         public Guid PersonId { get; set; }
+        public TPerson Person { get; set; }
 
         [Display(Name = "Кількість подій")]
         public static int? Count { get; set; }
