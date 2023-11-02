@@ -7,12 +7,12 @@
 <h1>Index2</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
     <tr>
         <th>
+<<<<<<< HEAD
                 @Html.DisplayNameFor(model => model.PIB)
         </th>
         <th>
@@ -23,11 +23,24 @@
         </th>
         <th>
                 @Html.DisplayNameFor(model => model.Events.FirstOrDefault().Comment)
+=======
+                @Html.DisplayNameFor(model => model.FromPersons.FirstOrDefault().Id)
+        </th>
+        <th>
+                @Html.DisplayNameFor(model => model.FromEvents.FirstOrDefault().EventDateRegister)
+        </th>
+        <th>
+                @Html.DisplayNameFor(model => model.FromEvents.FirstOrDefault().NextDateCommunication)
+        </th>
+        <th>
+                @Html.DisplayNameFor(model => model.FromEvents.FirstOrDefault().Comment)
+>>>>>>> 81c67f5e5034a50afe82f017356fd114946eee3c
         </th>
         <th></th>
     </tr>
     </thead>
     <tbody>
+<<<<<<< HEAD
 @foreach (var person in Model)
 {
     foreach (var item in person.Events)
@@ -52,6 +65,28 @@
             </td>
         </tr>
     }
+=======
+@foreach (var item in Model) {
+    <tr>
+        <td>
+                    @Html.DisplayFor(modelItem => item.FromPersons.FirstOrDefault().PIB)
+        </td>
+        <td>
+                    @Html.DisplayFor(modelItem => item.FromEvents.FirstOrDefault().EventDateRegister)
+        </td>
+        <td>
+                    @Html.DisplayFor(modelItem => item.FromEvents.FirstOrDefault().NextDateCommunication)
+        </td>
+        <td>
+                    @Html.DisplayFor(modelItem => item.FromEvents.FirstOrDefault().Comment)
+        </td>
+        <td>
+@*             <a asp-action="Edit" asp-route-id="@item.FromEvents.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.FromEvents.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.FromEvents.Id">Delete</a>
+ *@        </td>
+    </tr>
+>>>>>>> 81c67f5e5034a50afe82f017356fd114946eee3c
 }
     </tbody>
 </table>

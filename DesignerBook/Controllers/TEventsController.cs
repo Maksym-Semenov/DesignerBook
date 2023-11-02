@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DesignerBook.Data;
 using DesignerBook.Models;
+using DesignerBook.ViewModels;
+using Microsoft.Data.SqlClient;
 
 namespace DesignerBook.Controllers
 {
@@ -38,45 +40,61 @@ namespace DesignerBook.Controllers
         }
 
         // GET: TEvents
-        public async Task<IActionResult> Index(int? AOrderBy )
-        {
-            const string constEventsOrder = "EventsOrder";
-
-            if (AOrderBy != null)
-                Request.HttpContext.Session.SetInt32(constEventsOrder, (int)AOrderBy);
-            else
-            if (Request.HttpContext.Session.Keys.Contains(constEventsOrder))
-                AOrderBy = Request.HttpContext.Session.GetInt32(constEventsOrder);
-            IOrderedQueryable<TEvent> vEventsOrder;
-            if (AOrderBy == 0)
-            {
-                vEventsOrder = _context.Events.
-                    OrderBy(t => t.EventDateRegister).
-                    ThenBy(t => t.PersonId);
-            }
-            else
-            {
-                vEventsOrder = _context.Events.
-                    OrderBy(t => t.PersonId).
-                    ThenBy(t => t.EventDateRegister);
-            }
-
+        public async Task<IActionResult> Index(TSortState vSortOrder = TSortState.NextDateCommAsc)
+        {      
             FillViewData(null, null);
-            return _context.Events != null ?
-                           View(await _context.Events.ToListAsync()) :
+
+            IQueryable<TEvent> vEvents = _context.Events;
+
+            ViewData["PIBSort"] = vSortOrder == TSortState.PIBAsc ? TSortState.PIBDesc : TSortState.PIBAsc;
+            ViewData["EventDateRegSort"] = vSortOrder == TSortState.EventDateRegAsc ? TSortState.EventDateRegDesc : TSortState.EventDateRegAsc;
+            ViewData["NextDateCommSort"] = vSortOrder == TSortState.NextDateCommAsc ? TSortState.NextDateCommDesc : TSortState.NextDateCommAsc;
+
+
+            vEvents = vSortOrder switch
+            {
+                TSortState.PIBAsc => vEvents.OrderBy(p => p.PersonId),
+                TSortState.PIBDesc => vEvents.OrderByDescending(p => p.PersonId),                
+                TSortState.EventDateRegAsc => vEvents.OrderBy(p => p.EventDateRegister),
+                TSortState.EventDateRegDesc => vEvents.OrderByDescending(p => p.EventDateRegister),
+                TSortState.NextDateCommDesc => vEvents.OrderByDescending(p => p.NextDateCommunication),
+                _ => vEvents.OrderBy(p => p.NextDateCommunication)
+            };
+
+            return vEvents != null ?
+                           View(await vEvents.AsNoTracking().ToListAsync()) :
                           Problem("Entity set 'DesignerBookContext.Events'  is null.");
         }
 
-        public async Task<IActionResult> Index2()
+        public IActionResult Index3(/*TSortState vSortOrder = TSortState.NextDateCommAsc*/)
         {
-            //PersonsWithEvents vPersonsWithEvents = new PersonsWithEvents();
-            var vPersonsWithEvents = _context.Persons.Include(x => x.Events).ToList();
-            //vPersonsWithEvents.EventsList = _context.Events;
-            //vPersonsWithEvents.PersonsList = _context.Persons;
-            return vPersonsWithEvents != null ?
-                View(vPersonsWithEvents) :
-                Problem("Entity set 'DesignerBookContext.Events'  is null.");
+            //FillViewData(null, null);
+
+            //IQueryable<TEvent> vEvents = _context.Events;
+
+            //ViewData["PIBSort"] = vSortOrder == TSortState.PIBAsc ? TSortState.PIBDesc : TSortState.PIBAsc;
+            //ViewData["EventDateRegSort"] = vSortOrder == TSortState.EventDateRegAsc ? TSortState.EventDateRegDesc : TSortState.EventDateRegAsc;
+            //ViewData["NextDateCommSort"] = vSortOrder == TSortState.NextDateCommAsc ? TSortState.NextDateCommDesc : TSortState.NextDateCommAsc;
+
+
+            //vEvents = vSortOrder switch
+            //{
+            //    TSortState.PIBAsc => vEvents.OrderBy(p => p.PersonId),
+            //    TSortState.PIBDesc => vEvents.OrderByDescending(p => p.PersonId),
+            //    TSortState.EventDateRegAsc => vEvents.OrderBy(p => p.EventDateRegister),
+            //    TSortState.EventDateRegDesc => vEvents.OrderByDescending(p => p.EventDateRegister),
+            //    TSortState.NextDateCommDesc => vEvents.OrderByDescending(p => p.NextDateCommunication),
+            //    _ => vEvents.OrderBy(p => p.NextDateCommunication)
+            //};
+            //IQueryable<PersonsWithEvents> vPersonWithEvents = _context.PersonsWithEvents;
+            var? vPersonWithEvents = new PersonsWithEvents();
+            vPersonWithEvents.FromPersons = _context.Persons;
+            vPersonWithEvents.FromEvents = _context.Events;
+
+
+            return View(vPersonWithEvents);
         }
+
 
         // GET: TEvents/Details/5
         public async Task<IActionResult> Details(Guid? id)
@@ -118,7 +136,7 @@ namespace DesignerBook.Controllers
                 AEvent.EventDateRegister = DateTime.Now;
                 _context.Add(AEvent);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index2));
+                return RedirectToAction(nameof(Index3));
             }
             FillViewData(AEvent, null);
             return View(AEvent);
