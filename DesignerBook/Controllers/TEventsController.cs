@@ -108,7 +108,7 @@ namespace DesignerBook.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PersonId,Count,EventSerialNumber," +
+        public async Task<IActionResult> Create([Bind("Id,PersonId,Person,Count,EventSerialNumber," +
                                                       "EventDateRegister,NextDateCommunication,Comment")] TEvent AEvent)
 
         {
